@@ -1,0 +1,5 @@
+Debug/*.*
+Release/*.*
+testCam101/Debug/*.*
+testCam101/Release/*.*
+.vs/*.*
