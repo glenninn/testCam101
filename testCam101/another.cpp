@@ -36,7 +36,7 @@ void showField(IAMVideoProcAmp *pProcAmp, char * pName, long prop) {
 //
 bool setZoom(IAMCameraControl *pCameraControl, long newZoom)
 {
-	HRESULT hr = pCameraControl->Set(CameraControl_Zoom, newZoom, 0L);
+	HRESULT hr = pCameraControl->Set(CameraControl_Zoom, newZoom, CameraControl_Flags_Manual);
 	return SUCCEEDED(hr);
 }
 
@@ -63,7 +63,7 @@ bool getPan(IAMCameraControl *pCameraControl, long * pPan)
 
 bool setPan(IAMCameraControl *pCameraControl, long newPan)
 {
-	HRESULT hr = pCameraControl->Set(CameraControl_Pan, newPan, 0L);
+	HRESULT hr = pCameraControl->Set(CameraControl_Pan, newPan, CameraControl_Flags_Manual);
 	return SUCCEEDED(hr);
 }
 
@@ -83,7 +83,7 @@ bool getTilt(IAMCameraControl *pCameraControl, long * pTilt)
 
 bool setTilt(IAMCameraControl *pCameraControl, long newTilt)
 {
-	HRESULT hr = pCameraControl->Set(CameraControl_Tilt, newTilt, 0L);
+	HRESULT hr = pCameraControl->Set(CameraControl_Tilt, newTilt, CameraControl_Flags_Manual);
 	return SUCCEEDED(hr);
 }
 
@@ -387,7 +387,11 @@ void panUD(int dt)
 
 void zoomIn(int dt)
 {
-	int delta = dt * zoomSpan / 10;
+	int delta;
+	if(zoomSpan >= 10)
+		 delta = dt * zoomSpan / 10;
+	else delta = dt;
+
 	long curZ = 0;
 
 	if (!getZoom(cameras[curCamera].pCameraControl, &curZ)) {
